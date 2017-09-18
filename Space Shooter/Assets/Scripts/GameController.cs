@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
 	public GUIText gameOverText;
 	
 	private int score;
+	private int waveCount = 1;
 	private bool gameOver;
 	private bool restart;
 	
@@ -46,7 +47,7 @@ public class GameController : MonoBehaviour
 		
 		while(true)
 		{
-	
+	   
 			for (int i = 0 ;i< hazardCount ;i++ )
 			{
 				if (i==2)
@@ -61,6 +62,7 @@ public class GameController : MonoBehaviour
 			}
 			yield return new WaitForSeconds (waveWait);
 			hazardCount = hazardCount +5;
+			waveCount += 1;
 			
 			
 			if (gameOver)
@@ -69,7 +71,7 @@ public class GameController : MonoBehaviour
 				restart = true;
 				break;
 			}
-			gameOverText.text = "Next Wave!!";
+			gameOverText.text = "Wave " + waveCount ;
 		}
 	}
 	
