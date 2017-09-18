@@ -49,6 +49,10 @@ public class GameController : MonoBehaviour
 	
 			for (int i = 0 ;i< hazardCount ;i++ )
 			{
+				if (i==2)
+				{
+					gameOverText.text = "";
+				}
 				GameObject hazard = hazards[Random.Range(0,hazards.Length)];
 				Vector3 spawnPosition = new Vector3( Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
 				Quaternion spawnRotation = Quaternion.identity;
@@ -56,6 +60,8 @@ public class GameController : MonoBehaviour
 				yield return new WaitForSeconds (spawnWait);
 			}
 			yield return new WaitForSeconds (waveWait);
+			hazardCount = hazardCount +5;
+			
 			
 			if (gameOver)
 			{
@@ -63,6 +69,7 @@ public class GameController : MonoBehaviour
 				restart = true;
 				break;
 			}
+			gameOverText.text = "Next Wave!!";
 		}
 	}
 	
