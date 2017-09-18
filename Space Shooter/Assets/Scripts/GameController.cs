@@ -109,6 +109,10 @@ public class GameController : MonoBehaviour
 	   if( lives > 0)
 	   {
 	      gameOver = false;
+			if(score > hiScore)
+			{
+				PlayerPrefs.SetInt("highscore",score);
+			}
 			PlayerPrefs.SetInt("Life",lives);
 			Application.LoadLevel(Application.loadedLevel);
 	   }
