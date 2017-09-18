@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 	public GameObject[] hazards;
 	public Vector3 spawnValues;
 	public int hazardCount;
+	public int lives;
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
@@ -13,8 +14,11 @@ public class GameController : MonoBehaviour
 	public GUIText scoreText;
 	public GUIText restartText;
 	public GUIText gameOverText;
+	public GUIText highScoreText;
+	public GUIText lifeText;
 	
 	private int score;
+	private int hiScore;
 	private int waveCount = 1;
 	private bool gameOver;
 	private bool restart;
@@ -25,6 +29,10 @@ public class GameController : MonoBehaviour
 		restart = false;
 		restartText.text = "";
 		gameOverText.text = "";
+		hiScore = PlayerPrefs.GetInt("highscore");
+		lives = PlayerPrefs.GetInt("Life");
+		highScoreText.text = "High Score: " + hiScore;
+		lifeText.text = "Lives: " + lives;
 		score = 0;
 		UpdateScore();
 		StartCoroutine( SpawnWaves());
@@ -36,6 +44,10 @@ public class GameController : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.R))
 			{
+			    if(score > hiScore)
+			    {
+			    	PlayerPrefs.SetInt("highscore",score);
+				}
 				Application.LoadLevel(Application.loadedLevel);
 			}
 		}
@@ -67,6 +79,7 @@ public class GameController : MonoBehaviour
 			
 			if (gameOver)
 			{
+				
 				restartText.text = "Press 'R' for Restart";
 				restart = true;
 				break;
@@ -90,8 +103,21 @@ public class GameController : MonoBehaviour
 	
 	public void GameOver()
 	{
-		gameOverText.text = "Game Over!";
-		gameOver = true;
+	   lives= lives -1;
+	   
+		
+	   if( lives > 0)
+	   {
+	      gameOver = false;
+			PlayerPrefs.SetInt("Life",lives);
+			Application.LoadLevel(Application.loadedLevel);
+	   }
+	   else{
+			lifeText.text = "Lives: " + lives;
+			PlayerPrefs.SetInt("Life",3);
+			gameOverText.text = "Game Over!";
+			gameOver = true;
+			}
 	}
 	
 }
